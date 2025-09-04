@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ER. Vinay | Cyber Phantom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+    body {
+      background: #000;
+      color: #00ff41;
+      overflow-x: hidden;
+    }
+    canvas#matrixRain {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      color: #00ff41;
+      text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;
+      animation: glitch 1s infinite;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #0aff9d;
+      margin-top: 10px;
+      text-shadow: 0 0 5px #0aff9d;
+      animation: fadeInUp 2s ease;
+    }
+    .terminal {
+      background: rgba(0,0,0,0.7);
+      padding: 25px;
+      border: 1px solid #00ff41;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ff41;
+      margin: 40px auto;
+      max-width: 900px;
+      font-size: 1.1rem;
+      color: #00ff41;
+    }
+    .terminal p::before {
+      content: 'root@vinay:~$ ';
+      color: #ff003c;
+    }
+    section h2 {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 2rem;
+      color: #00ff41;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px #00ff41;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.9);
+      color: #0aff9d;
+      font-size: 0.9rem;
+    }
+    a {
+      color: #0aff9d;
+      text-decoration: none;
+    }
+    a:hover {
+      text-shadow: 0 0 10px #00ff41;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 2px red; }
+      20% { text-shadow: -2px -2px blue; }
+      40% { text-shadow: 2px -2px lime; }
+      60% { text-shadow: -2px 2px yellow; }
+      80% { text-shadow: 2px 2px #ff00ff; }
+      100% { text-shadow: -2px -2px cyan; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrixRain"></canvas>
+
+  <header>
+    <h1>ER. 🥰Vinay 🥰</h1>
+    <p>Black Hat Hacker | Cyber Phantom | Digital Ghost</p>
+  </header>
+
+  <section id="about" class="terminal">
+    <h2>About Me</h2>
+    <p>A passionate B.Tech engineer blending creativity with code. From crafting intelligent AI systems to building futuristic apps, I thrive on challenges that push boundaries. I’m not just a developer, I’m a problem solver, a leader, and a digital visionary who believes in creating tech that leaves an impact. Always motivated, always evolving — my mission is to turn ideas into powerful digital realities.</p>
+  </section>
+
+  <section id="skills" class="terminal">
+    <h2>Skills</h2>
+    <p>Python | C++ | Video Editing | Web Designing | Self-Motivated | Confident | Team Leadership</p>
+  </section>
+
+  <section id="projects" class="terminal">
+    <h2>Projects</h2>
+    <p>Face Recognition System Based Attendance System | Buddy AI | Moody Plant</p>
+  </section>
+
+  <section id="contact" class="terminal">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:Kumawatvinay28@gmail.com">Kumawatvinay28@gmail.com</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/vinay-kumawat-a0a02326b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">linkedin.com/in/vinay-kumawat</a></p>
+    <p>GitHub: <a href="https://github.com/Vinay9079" target="_blank">github.com/Vinay9079</a></p>
+  </section>
+
+  <footer>
+    <p>© 2025 ER. Vinay | Unauthorized Access Only</p>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('matrixRain');
+    const ctx = canvas.getContext('2d');
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = 'アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバヒビフブヘベホマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+    for(let x = 0; x < columns; x++) {
+      drops[x] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
