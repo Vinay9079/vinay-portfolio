@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ER. Vinay | Cyber Phantom Freelancer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Montserrat',sans-serif;background:#000;color:#00ff41;overflow-x:hidden}
+    canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-3}
+
+    header{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:2}
+    .brand{font-family:'Space Mono',monospace;color:#7cffb2;font-weight:800}
+    header h1{font-size:2.2rem;color:#00ff41;text-shadow:0 0 12px #00ff41;cursor:default}
+    header p{color:#98ffb9;margin-top:8px}
+    .under{height:6px;width:280px;margin:14px auto;background:linear-gradient(90deg,#00ff41,#00a5ff);border-radius:999px;box-shadow:0 0 20px rgba(0,255,65,0.25);animation:underPulse 2s infinite}
+    @keyframes underPulse{0%{transform:scaleX(.9);opacity:.6}50%{transform:scaleX(1);opacity:1}100%{transform:scaleX(.9);opacity:.6}}
+
+    .section{background:rgba(0,0,0,0.65);padding:22px;margin:32px auto;max-width:1000px;border-radius:12px;box-shadow:0 0 20px #00ff41;border:1px solid rgba(0,255,65,.08)}
+    .section h2{text-align:center;font-size:1.6rem;color:#00ff41;text-transform:uppercase;margin-bottom:12px}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .card{position:relative;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.8));padding:18px;border-radius:10px;border:1px solid rgba(0,255,65,.06);box-shadow:0 0 12px rgba(0,255,65,.06);text-align:center;transition:transform .25s;cursor:pointer}
+    .card:hover{transform:translateY(-6px);box-shadow:0 0 24px rgba(0,255,65,.12)}
+
+    /* Tooltip */
+    .tooltip{position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#000;border:1px solid #00ff41;color:#bfffd0;padding:8px 12px;border-radius:6px;font-size:.9rem;white-space:normal;min-width:180px;max-width:240px;text-align:center;opacity:0;pointer-events:none;box-shadow:0 0 12px rgba(0,255,65,.2);transition:opacity .3s ease, transform .3s ease;z-index:20}
+    .card:hover .tooltip{opacity:1;transform:translate(-50%,-6px)}
+
+    /* Hire section */
+    .hire{padding:34px;text-align:center;border-radius:12px}
+    .hire-btn{display:inline-block;padding:12px 22px;background:#00ff41;color:#000;border-radius:8px;border:none;cursor:pointer;font-weight:800;font-family:'Space Mono';box-shadow:0 0 18px rgba(0,255,65,.2)}
+
+    footer{text-align:center;padding:18px;color:#89f6b0;font-size:.9rem;margin-top:30px}
+
+    /* Modal */
+    .modal{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.9);backdrop-filter:blur(6px);justify-content:center;align-items:center;padding:20px}
+    .modal.show{display:flex}
+    .modal-content{width:100%;max-width:720px;background:#070707;border:1px solid rgba(0,255,65,.08);padding:24px;border-radius:12px;box-shadow:0 0 40px rgba(0,255,65,.06);position:relative;color:#bfffd0}
+    .modal-hero{display:flex;align-items:center;gap:12px}
+    .dot{width:12px;height:12px;border-radius:50%;background:#7cffb2;box-shadow:0 0 8px #7cffb2}
+    .modal-title{font-weight:800;color:#eaffeb}
+    .close{position:absolute;right:14px;top:10px;color:#ff6b6b;font-size:22px;cursor:pointer}
+    .modal-img{width:140px;height:140px;border-radius:50%;border:3px solid #00ff41;object-fit:cover;box-shadow:0 0 20px rgba(0,255,65,.15)}
+    .modal-desc{margin-top:12px;color:#bfffd0}
+
+    .fake-term{background:#000;border:1px solid rgba(0,255,65,.04);padding:10px;border-radius:8px;margin-top:12px;color:#0aff9d;font-family:'Space Mono',monospace;font-size:.95rem;min-height:48px}
+    .cursor{display:inline-block;width:8px;height:16px;background:#0aff9d;margin-left:6px;animation:blink 1s steps(2) infinite}
+    @keyframes blink{50%{opacity:0}}
+    .scan{position:relative;height:6px;border-radius:6px;margin-top:12px;background:linear-gradient(90deg,transparent,#00ff41,transparent);overflow:hidden}
+    .scan .bar{position:absolute;left:-40%;top:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,65,.8),transparent);animation:scanMove 2.2s linear infinite}
+    @keyframes scanMove{0%{left:-40%}100%{left:140%}}
+
+    @media (max-width:520px){header h1{font-size:1.6rem}.modal-content{padding:16px}.modal-img{width:110px;height:110px}}
+  </style>
+</head>
+<body>
+  <canvas id="matrixRain"></canvas>
+  <canvas id="gridBg"></canvas>
+
+  <header>
+    <h1><span class="brand">ER.</span> Vinay</h1>
+    <div class="under"></div>
+    <p>Black Hat Hacker · Cyber Phantom · Freelancer Developer</p>
+  </header>
+
+  <main>
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <div class="grid">
+        <div class="card">Python<div class="tooltip">Expert in Python for AI/ML, backend automation & system programming</div></div>
+        <div class="card">C++<div class="tooltip">Strong in OOP, system-level programming, and competitive coding</div></div>
+        <div class="card">JavaScript<div class="tooltip">Frontend & backend development, DOM manipulation, ES6+</div></div>
+        <div class="card">React<div class="tooltip">Building dynamic single-page apps with hooks and state management</div></div>
+        <div class="card">Node.js<div class="tooltip">Backend APIs, Express.js, and scalable services</div></div>
+        <div class="card">Flutter<div class="tooltip">Cross-platform mobile app development with Dart</div></div>
+        <div class="card">SQL<div class="tooltip">Database design, queries, optimization and integration</div></div>
+        <div class="card">Cybersecurity<div class="tooltip">Pen-testing basics, securing systems, and ethical hacking</div></div>
+        <div class="card">Cloud Basics<div class="tooltip">AWS, Google Cloud basics for scalable solutions</div></div>
+        <div class="card">Video Editing<div class="tooltip">Content creation, Premiere Pro, After Effects</div></div>
+        <div class="card">Web Designing<div class="tooltip">UI/UX, responsive layouts, creative hacker-style themes</div></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">Face Recognition Attendance System<div class="tooltip">AI-based system using OpenCV to mark attendance automatically</div></div>
+        <div class="card">Buddy AI<div class="tooltip">Voice-controlled AI assistant with mood detection & emotional responses</div></div>
+        <div class="card">Moody Plant<div class="tooltip">IoT plant that reacts to user mood via sensors and AI</div></div>
+      </div>
+    </section>
+
+    <section id="achievements" class="section">
+      <h2>Achievements</h2>
+      <div class="grid">
+        <div class="card">✅ Face Recognition System<div class="tooltip">Developed for college project, automates attendance securely</div></div>
+        <div class="card">✅ Buddy AI<div class="tooltip">Created an AI friend capable of voice interaction and emotions</div></div>
+        <div class="card">✅ Moody Plant<div class="tooltip">Blended IoT and AI for smart lifestyle innovation</div></div>
+        <div class="card">✅ Open Source Contributions<div class="tooltip">Actively contributing to projects on GitHub</div></div>
+      </div>
+    </section>
+
+    <section id="hire" class="section hire">
+      <h2>Hire Me</h2>
+      <p>Looking for a hacker-style developer who ships futuristic solutions? Click below to view contact details.</p>
+      <button class="hire-btn" id="hireBtn">Hire Me Now</button>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:Kumawatvinay28@gmail.com" style="color:#0aff9d">Kumawatvinay28@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/vinay-kumawat-a0a02326b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="color:#0aff9d">linkedin.com/in/vinay-kumawat</a></p>
+      <p>GitHub: <a href="https://github.com/Vinay9079" target="_blank" style="color:#0aff9d">github.com/Vinay9079</a></p>
+    </section>
+  </main>
+
+  <footer>© 2025 ER. Vinay | Freelancer Portfolio</footer>
+
+  <div id="hireModal" class="modal">
+    <div class="modal-content">
+      <button class="close">&times;</button>
+      <div class="modal-hero">
+        <div class="dot"></div>
+        <div class="modal-title">Get in touch — ER. Vinay</div>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <img class="modal-img" src="WhatsApp Image 2025-08-18 at 11.47.56_da4bd6cf.jpg" alt="Vinay" />
+      </div>
+      <div class="modal-desc">
+        📧 Email: <a href="mailto:Kumawatvinay28@gmail.com">Kumawatvinay28@gmail.com</a><br>
+        🔗 LinkedIn: <a href="https://www.linkedin.com/in/vinay-kumawat-a0a02326b" target="_blank">linkedin.com/in/vinay-kumawat</a><br>
+        💻 GitHub: <a href="https://github.com/Vinay9079" target="_blank">github.com/Vinay9079</a>
+      </div>
+      <div class="fake-term" id="hireTerm"></div>
+      <div class="scan"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix rain
+    const matrix = document.getElementById('matrixRain');
+    const ctx = matrix.getContext('2d');
+    function resizeCanvas(){matrix.width=window.innerWidth;matrix.height=window.innerHeight;}
+    resizeCanvas();
+    window.addEventListener('resize',resizeCanvas);
+    const letters = 'アァイィウヴエェオカガキギクグケゲコゴサザシジスズABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const fontSize = 14;
+    let columns = Array(Math.floor(window.innerWidth/fontSize)).fill(0);
+    function draw(){
+      ctx.fillStyle='rgba(0,0,0,0.06)';
+      ctx.fillRect(0,0,matrix.width,matrix.height);
+      ctx.fillStyle='#00ff41';
+      ctx.font=fontSize+'px monospace';
+      columns.forEach((y,i)=>{
+        const text=letters.charAt(Math.floor(Math.random()*letters.length));
+        ctx.fillText(text,i*fontSize,y*fontSize);
+        if(y*fontSize>matrix.height&&Math.random()>0.975){columns[i]=0;}else{columns[i]=y+1;}
+      });
+    }
+    setInterval(draw,33);
+
+    // Modal
+    const hireBtn=document.getElementById('hireBtn');
+    const hireModal=document.getElementById('hireModal');
+    const closeBtn=hireModal.querySelector('.close');
+
+    function openModal(){hireModal.classList.add('show');typeIn('hireTerm',['Initializing secure contact console...','Opening channel...','Ready: send email to Kumawatvinay28@gmail.com'],40);}
+    function closeModal(){hireModal.classList.remove('show');if(window._typeTimer){clearTimeout(window._typeTimer);window._typeTimer=null;}}
+
+    hireBtn.addEventListener('click',openModal);
+    closeBtn.addEventListener('click',closeModal);
+    window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+    // Typing effect
+    function typeIn(id,lines,speed){
+      const el=document.getElementById(id);if(!el)return;el.innerHTML='';let li=0,ci=0;
+      function step(){
+        if(li>=lines.length){el.innerHTML+='<div style="color:#7cffb2;font-size:0.9rem;margin-top:6px">-- console ready --</div>';return;}
+        const line=lines[li];
+        el.innerHTML=line.slice(0,ci)+'<span class="cursor"></span>';
+        ci++;
+        if(ci>line.length){li++;ci=0;window._typeTimer=setTimeout(step,600);return;}
+        window._typeTimer=setTimeout(step,speed);
+      }
+      step();
+    }
+  </script>
+</body>
+</html>
