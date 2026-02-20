@@ -1,0 +1,143 @@
+.bgfx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(34, 211, 238, 0.14), transparent 35%),
+    radial-gradient(circle at 80% 75%, rgba(239, 68, 68, 0.14), transparent 35%),
+    linear-gradient(135deg, rgba(2, 10, 30, 0.86), rgba(1, 8, 24, 0.72));
+  backdrop-filter: blur(2px) saturate(120%);
+}
+
+.bgfx__canvas,
+.bgfx__hex,
+.bgfx__rings,
+.bgfx__scan,
+.bgfx__noise,
+.bgfx__danger,
+.bgfx__blob {
+  position: absolute;
+  inset: 0;
+}
+
+.bgfx__canvas {
+  opacity: 0.8;
+}
+
+.bgfx__hex {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.09) 1px, transparent 1px);
+  background-size: 42px 42px;
+  transform: perspective(900px) rotateX(63deg) scale(1.25) translateY(26%);
+  transform-origin: bottom;
+  opacity: 0.2;
+  animation: driftGrid 11s linear infinite;
+}
+
+.bgfx__rings {
+  width: 480px;
+  height: 480px;
+  inset: auto;
+  right: 7%;
+  top: 18%;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  box-shadow:
+    0 0 0 35px rgba(34, 211, 238, 0.12),
+    0 0 0 80px rgba(124, 58, 237, 0.08),
+    inset 0 0 35px rgba(6, 182, 212, 0.18);
+  filter: blur(0.2px) drop-shadow(0 0 22px rgba(34, 211, 238, 0.28));
+  animation: spinRing 16s linear infinite;
+}
+
+.bgfx__scan--v {
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.16), transparent);
+  width: 220px;
+  animation: scanV 6s linear infinite;
+}
+
+.bgfx__scan--h {
+  background: linear-gradient(transparent, rgba(239, 68, 68, 0.13), transparent);
+  height: 180px;
+  animation: scanH 9s linear infinite;
+}
+
+.bgfx__noise {
+  opacity: 0.08;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.9) 0.5px, transparent 0.5px);
+  background-size: 2px 2px;
+  mix-blend-mode: screen;
+  animation: noiseShift 0.25s steps(2) infinite;
+}
+
+.bgfx__danger {
+  background:
+    radial-gradient( circle at 20% 60%, rgba(239, 68, 68, 0.14), transparent 35% ),
+    radial-gradient( circle at 50% 30%, rgba(255, 120, 80, 0.10), transparent 40% );
+  mix-blend-mode: screen;
+  animation: alertPulse 2.8s ease-in-out infinite;
+}
+
+.bgfx__blob {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  filter: blur(14px);
+}
+
+.bgfx__blob--1 {
+  right: 13%;
+  bottom: 18%;
+  background: rgba(34, 211, 238, 0.22);
+  animation: float1 10s ease-in-out infinite;
+}
+
+.bgfx__blob--2 {
+  left: 55%;
+  bottom: 10%;
+  background: rgba(124, 58, 237, 0.22);
+  animation: float2 13s ease-in-out infinite;
+}
+
+@keyframes driftGrid {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 140px, 140px 0; }
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scanV {
+  0% { transform: translateX(-260px); }
+  100% { transform: translateX(calc(100vw + 260px)); }
+}
+
+@keyframes scanH {
+  0% { transform: translateY(-220px); }
+  100% { transform: translateY(calc(100vh + 220px)); }
+}
+
+@keyframes noiseShift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(2px, -2px); }
+}
+
+@keyframes alertPulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-18px, 18px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(18px, -18px); }
+}
